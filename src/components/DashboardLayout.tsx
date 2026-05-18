@@ -109,26 +109,26 @@ function DashboardLayout({ title, subtitle, children }: DashboardLayoutProps) {
       </aside>
 
       <div className="lg:pl-72">
-        <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/[0.82] backdrop-blur-xl">
+        <header className="sticky top-0 z-20 border-b border-slate-200 bg-white/[0.82] backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/65">
           <div className="flex min-h-16 items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
             <div>
               <p className="text-sm text-slate-500">Welcome back, {username}</p>
               <h2 className="text-xl font-semibold">{title}</h2>
               {subtitle && <p className="text-sm text-slate-500">{subtitle}</p>}
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 lg:hidden">
               <button
                 type="button"
                 aria-label="Toggle theme"
                 onClick={() => setDarkMode((value) => !value)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-100"
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               >
                 {darkMode ? <Sun size={18} /> : <Moon size={18} />}
               </button>
               <button
                 type="button"
                 onClick={logout}
-                className="hidden h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 lg:flex"
+                className="flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100"
               >
                 <LogOut size={17} />
                 Logout
