@@ -252,9 +252,28 @@ function Dashboard() {
         </div>
 
         <nav className="mt-8 space-y-2">
-          <div className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-sky-50 to-emerald-50 px-4 py-3 text-sm font-semibold text-sky-950 ring-1 ring-sky-100">
+          <div
+            className="flex cursor-pointer items-center gap-3 rounded-xl bg-gradient-to-r from-sky-50 to-emerald-50 px-4 py-3 text-sm font-semibold text-sky-950 ring-1 ring-sky-100"
+            onClick={() => navigate("/dashboard")}
+          >
             <ClipboardList size={18} />
             Dashboard
+          </div>
+
+          <div
+            className="flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            onClick={() => navigate("/tasks")}
+          >
+            <Pencil size={18} />
+            Tasks (CRUD)
+          </div>
+
+          <div
+            className="flex cursor-pointer items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            onClick={() => navigate("/organizer")}
+          >
+            <LayoutDashboard size={18} />
+            Task Organizer
           </div>
         </nav>
 

@@ -9,6 +9,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import GoogleSuccess from "./pages/GoogleSuccess";
+import Tasks from "./pages/Tasks";
+import Organizer from "./pages/Organizer";
 
 function App() {
 
@@ -32,6 +34,9 @@ function App() {
           path="/dashboard"
           element={<Dashboard />}
         />
+
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/organizer" element={<Organizer />} />
 
         <Route
           path="/admin"
