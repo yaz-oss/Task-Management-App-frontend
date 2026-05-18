@@ -78,7 +78,7 @@ function Login() {
     <main
       className={`theme-app min-h-screen overflow-hidden ${
         darkMode
-          ? "dark bg-[#030712] text-white"
+          ? "dark bg-[#111b38] text-slate-100"
           : "bg-gradient-to-br from-rose-50 via-sky-50 to-emerald-50 text-slate-950"
       }`}
     >
@@ -126,8 +126,10 @@ function Login() {
 
           <div
             className={`p-6 sm:p-10 ${
-              darkMode ? "bg-slate-950/[0.72]" : "bg-white/[0.82]"
-            }`}
+              darkMode
+                ? "bg-slate-900/75 border border-slate-800/50"
+                : "bg-white/[0.82]"
+            } rounded-[24px] shadow-2xl shadow-slate-950/10`}
           >
             <div className="mb-8 flex items-center justify-between">
               <div>
@@ -172,7 +174,7 @@ function Login() {
                 <span
                   className={`flex h-12 items-center rounded-2xl border px-4 transition focus-within:border-sky-400 ${
                     darkMode
-                      ? "border-white/[0.12] bg-white/[0.08]"
+                      ? "border-slate-700/60 bg-slate-900/40"
                       : "border-slate-200 bg-white"
                   }`}
                 >
@@ -193,7 +195,7 @@ function Login() {
                 <span
                   className={`flex h-12 items-center rounded-2xl border px-4 transition focus-within:border-sky-400 ${
                     darkMode
-                      ? "border-white/[0.12] bg-white/[0.08]"
+                      ? "border-slate-700/60 bg-slate-900/40"
                       : "border-slate-200 bg-white"
                   }`}
                 >
@@ -246,7 +248,7 @@ function Login() {
                 }}
                 className={`flex h-12 w-full items-center justify-center gap-3 rounded-2xl border text-sm font-bold transition ${
                   darkMode
-                    ? "border-sky-400/25 bg-slate-950 text-slate-100 shadow-lg shadow-sky-500/10 hover:bg-slate-900"
+                    ? "border-sky-400/20 bg-slate-900/70 text-slate-100 shadow-lg shadow-sky-500/10 hover:bg-slate-800"
                     : "border-slate-200 bg-white hover:bg-slate-50"
                 }`}
               >

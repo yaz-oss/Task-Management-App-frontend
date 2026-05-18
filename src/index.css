@@ -10,20 +10,20 @@
 
 @layer components {
   .theme-app.dark {
-    background-color: #0f172a;
+    background-color: #101b33;
     background-image:
-      radial-gradient(circle at 10% 10%, rgba(96, 165, 250, 0.22), transparent 28%),
-      radial-gradient(circle at 90% 20%, rgba(139, 92, 246, 0.18), transparent 30%),
-      linear-gradient(135deg, #0b122d 0%, #111c3b 40%, #151f43 70%, #090c1f 100%);
-    color: #e2e8f0;
+      radial-gradient(circle at 12% 10%, rgba(96, 165, 250, 0.2), transparent 26%),
+      radial-gradient(circle at 88% 18%, rgba(124, 58, 237, 0.16), transparent 28%),
+      linear-gradient(135deg, #101b33 0%, #141f3d 30%, #1d2a4a 65%, #111a32 100%);
+    color: #e7efff;
   }
 
   .theme-app.dark .bg-white {
-    background-color: rgba(16, 24, 40, 0.92);
+    background-color: rgba(20, 28, 50, 0.92);
   }
 
   .theme-app.dark [class*="bg-white/"] {
-    background-color: rgba(15, 23, 42, 0.82);
+    background-color: rgba(18, 28, 50, 0.78);
   }
 
   .theme-app.dark [class*="from-white"],
@@ -49,11 +49,11 @@
   }
 
   .theme-app.dark .bg-slate-50 {
-    background-color: #07111f;
+    background-color: #14203a;
   }
 
   .theme-app.dark .bg-slate-100 {
-    background-color: #111827;
+    background-color: #172345;
   }
 
   .theme-app.dark .text-slate-950,
@@ -86,15 +86,15 @@
   }
 
   .theme-app.dark .dark-panel {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.96), rgba(49, 46, 129, 0.9));
-    border-color: rgba(96, 165, 250, 0.22);
-    box-shadow: 0 18px 45px rgba(4, 12, 40, 0.38);
+    background: linear-gradient(135deg, rgba(18, 30, 54, 0.96), rgba(37, 53, 90, 0.94), rgba(88, 80, 217, 0.75));
+    border-color: rgba(96, 165, 250, 0.24);
+    box-shadow: 0 18px 45px rgba(10, 24, 72, 0.32);
   }
 
   .theme-app.dark .dark-panel-soft {
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.84), rgba(59, 57, 128, 0.85));
-    border-color: rgba(139, 92, 246, 0.24);
-    box-shadow: 0 16px 36px rgba(79, 70, 229, 0.1);
+    background: linear-gradient(135deg, rgba(18, 30, 54, 0.88), rgba(69, 58, 189, 0.84));
+    border-color: rgba(139, 92, 246, 0.2);
+    box-shadow: 0 16px 36px rgba(89, 80, 212, 0.14);
   }
 
   .theme-app.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
@@ -104,8 +104,8 @@
   .theme-app.dark input,
   .theme-app.dark select,
   .theme-app.dark textarea {
-    background-color: #030712;
-    color: #e5e7eb;
+    background-color: #121f3c;
+    color: #e7efff;
   }
 
   .theme-app.dark option {
