@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
 
@@ -26,14 +27,34 @@ function Organizer() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks(Array.isArray(response.data) ? response.data : []);
-    } catch {
-      setMessage("Could not load tasks");
+    } catch (error: unknown) {
+      const apiMessage = axios.isAxiosError(error)
+        ? (error.response?.data as { message?: string } | undefined)?.message
+        : undefined;
+
+      if (apiMessage?.toLowerCase().includes("blocked")) {
+        localStorage.clear();
+        navigate("/", {
+          replace: true,
+          state: {
+            message: "You are blocked by admin",
+          },
+        });
+        return;
+      }
+
+      setMessage(apiMessage || "Could not load tasks");
     }
-  }, [token]);
+  }, [navigate, token]);
 
   useEffect(() => {
+    if (!token) {
+      navigate("/", { replace: true });
+      return;
+    }
+
     void fetchTasks();
-  }, [fetchTasks]);
+  }, [fetchTasks, navigate, token]);
 
   const grouped = useMemo(() => {
     return {

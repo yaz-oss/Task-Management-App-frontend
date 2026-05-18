@@ -1,5 +1,8 @@
+import type { ReactElement } from "react";
+
 import {
   BrowserRouter,
+  Navigate,
   Routes,
   Route,
 } from "react-router-dom";
@@ -11,6 +14,27 @@ import AdminDashboard from "./pages/AdminDashboard";
 import GoogleSuccess from "./pages/GoogleSuccess";
 import Tasks from "./pages/Tasks";
 import Organizer from "./pages/Organizer";
+
+function ProtectedRoute({
+  children,
+  allowedRoles,
+}: {
+  children: ReactElement;
+  allowedRoles?: string[];
+}) {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
+  if (!token) {
+    return <Navigate to="/" replace />;
+  }
+
+  if (allowedRoles && (!role || !allowedRoles.includes(role))) {
+    return <Navigate to={role === "admin" ? "/admin" : "/dashboard"} replace />;
+  }
+
+  return children;
+}
 
 function App() {
 
@@ -32,25 +56,56 @@ function App() {
 
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/organizer" element={<Organizer />} />
+        <Route
+          path="/tasks"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Tasks />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/organizer"
+          element={
+            <ProtectedRoute allowedRoles={["user"]}>
+              <Organizer />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/admin"
-          element={<AdminDashboard />}
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/admin/users"
-          element={<AdminDashboard />}
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/admin/tasks"
-          element={<AdminDashboard />}
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
         />
 
       
@@ -58,6 +113,11 @@ function App() {
       <Route
         path="/google-success"
         element={<GoogleSuccess />}
+      />
+
+      <Route
+        path="*"
+        element={<Navigate to="/" replace />}
       />
 
       </Routes>

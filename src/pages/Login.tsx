@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Eye,
   EyeOff,
@@ -15,6 +15,9 @@ import API from "../api/axios";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const blockedMessage =
+    (location.state as { message?: string } | null)?.message || "";
   const rememberedEmail = localStorage.getItem("rememberedEmail") || "";
 
   const [darkMode, setDarkMode] = useState(true);
@@ -22,15 +25,21 @@ function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(Boolean(rememberedEmail));
+  const [message, setMessage] = useState(blockedMessage);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
+    if (blockedMessage) {
+      window.history.replaceState({}, document.title);
+      return;
+    }
+
     if (!token) return;
 
     navigate(role === "admin" ? "/admin" : "/dashboard", { replace: true });
-  }, [navigate]);
+  }, [blockedMessage, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,6 +50,7 @@ function Login() {
         password,
       });
 
+      setMessage("");
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", response.data.role);
 
@@ -60,7 +70,7 @@ function Login() {
         ? (error.response?.data as { message?: string } | undefined)?.message
         : undefined;
 
-      alert(message || "Login failed");
+      setMessage(message || "Login failed");
     }
   };
 
@@ -143,6 +153,20 @@ function Login() {
             </div>
 
             <form onSubmit={handleLogin} className="space-y-5">
+              {message && (
+                <div
+                  className={`rounded-2xl border px-4 py-3 text-sm font-semibold ${
+                    message.toLowerCase().includes("blocked")
+                      ? "border-red-300 bg-red-50 text-red-700"
+                      : darkMode
+                        ? "border-amber-400/30 bg-amber-400/10 text-amber-100"
+                        : "border-amber-200 bg-amber-50 text-amber-700"
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
+
               <label className="block">
                 <span className="mb-2 block text-sm font-semibold">Email</span>
                 <span
