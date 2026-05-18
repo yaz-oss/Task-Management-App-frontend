@@ -3,6 +3,7 @@ import axios from "axios";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
+import DashboardLayout from "../components/DashboardLayout";
 
 type TaskStatus = "todo" | "in-progress" | "pending" | "completed";
 
@@ -121,24 +122,7 @@ function Tasks() {
   };
 
   return (
-    <div className="min-h-screen p-6 lg:pl-72">
-      <header className="mb-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-slate-500">Tasks</p>
-            <h1 className="text-2xl font-semibold">Task management</h1>
-          </div>
-          <div className="flex gap-2">
-            <button
-              onClick={() => navigate("/dashboard")}
-              className="rounded-xl border px-3 py-2 text-sm"
-            >
-              Back
-            </button>
-          </div>
-        </div>
-      </header>
-
+    <DashboardLayout title="Tasks" subtitle="Create, edit, and manage your tasks">
       <main className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
         <form onSubmit={saveTask} className="rounded-xl border p-4">
           <h2 className="font-semibold">{editingId ? "Edit" : "Create"} task</h2>
@@ -211,7 +195,7 @@ function Tasks() {
           </div>
         </section>
       </main>
-    </div>
+    </DashboardLayout>
   );
 }
 

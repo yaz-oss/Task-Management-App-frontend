@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
+import DashboardLayout from "../components/DashboardLayout";
 
 type TaskStatus = "todo" | "in-progress" | "pending" | "completed";
 
@@ -80,19 +81,7 @@ function Organizer() {
   };
 
   return (
-    <div className="min-h-screen p-6 lg:pl-72">
-      <header className="mb-6 flex items-center justify-between">
-        <div>
-          <p className="text-sm text-slate-500">Organizer</p>
-          <h1 className="text-2xl font-semibold">Task organizer</h1>
-        </div>
-        <div>
-          <button onClick={() => navigate("/dashboard")} className="rounded-xl border px-3 py-2">
-            Back
-          </button>
-        </div>
-      </header>
-
+    <DashboardLayout title="Task organizer" subtitle="Plan and move tasks through stages">
       <main className="grid gap-4 md:grid-cols-4">
         <Column title="Todo" tasks={grouped.todo} onChangeStatus={changeStatus} />
         <Column title="In progress" tasks={grouped.inProgress} onChangeStatus={changeStatus} />
@@ -100,7 +89,7 @@ function Organizer() {
         <Column title="Done" tasks={grouped.completed} onChangeStatus={changeStatus} />
       </main>
       {message && <p className="mt-4 text-sm text-rose-600">{message}</p>}
-    </div>
+    </DashboardLayout>
   );
 }
 

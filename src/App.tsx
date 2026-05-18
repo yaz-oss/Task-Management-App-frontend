@@ -64,7 +64,7 @@ function App() {
         />
 
         <Route
-          path="/tasks"
+          path="/dashboard/tasks"
           element={
             <ProtectedRoute allowedRoles={["user"]}>
               <Tasks />
@@ -73,12 +73,22 @@ function App() {
         />
 
         <Route
-          path="/organizer"
+          path="/dashboard/organizer"
           element={
             <ProtectedRoute allowedRoles={["user"]}>
               <Organizer />
             </ProtectedRoute>
           }
+        />
+
+        <Route
+          path="/tasks"
+          element={<Navigate to="/dashboard/tasks" replace />}
+        />
+
+        <Route
+          path="/organizer"
+          element={<Navigate to="/dashboard/organizer" replace />}
         />
 
         <Route
