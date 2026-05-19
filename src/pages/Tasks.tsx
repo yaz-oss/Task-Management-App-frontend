@@ -141,7 +141,7 @@ function Tasks() {
           />
           <div className="mt-3 flex gap-2">
             <button className="rounded-xl bg-slate-900 px-3 py-2 text-white flex items-center gap-2">
-              <Plus size={14} /> Create
+              <Plus size={14} /> {editingId ? "Save" : "Create"}
             </button>
             {editingId && (
               <button type="button" onClick={resetForm} className="rounded-xl border px-3 py-2">
@@ -176,6 +176,7 @@ function Tasks() {
                     <option value="completed">Done</option>
                   </select>
                   <button
+                    type="button"
                     onClick={() => {
                       setEditingId(task.id);
                       setTitle(task.title);

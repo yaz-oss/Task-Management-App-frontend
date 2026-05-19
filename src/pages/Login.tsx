@@ -20,7 +20,9 @@ function Login() {
     (location.state as { message?: string } | null)?.message || "";
   const rememberedEmail = localStorage.getItem("rememberedEmail") || "";
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() =>
+    localStorage.getItem("theme") === "dark"
+  );
   const [email, setEmail] = useState(rememberedEmail);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -40,6 +42,11 @@ function Login() {
 
     navigate(role === "admin" ? "/admin" : "/dashboard", { replace: true });
   }, [blockedMessage, navigate]);
+
+  useEffect(() => {
+    // persist theme choice so dashboard and other pages honor it
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

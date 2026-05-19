@@ -102,27 +102,22 @@ function Column({
   tasks: TaskType[];
   onChangeStatus: (id: number, status: TaskStatus) => void;
 }) {
-  const statusMap: Record<string, TaskStatus> = {
-    Todo: "todo",
-    "In progress": "in-progress",
-    Pending: "pending",
-    Done: "completed",
-  };
-
   return (
     <section className="rounded-xl border p-4">
       <h3 className="font-semibold">{title}</h3>
       <div className="mt-3 space-y-3">
-        {tasks.map((t) => (
-          <div key={t.id} className="rounded-md border p-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-semibold">{t.title}</p>
-                <p className="text-sm text-slate-500">{t.description}</p>
-              </div>
-              <div>
+        {tasks.map((t) => {
+          const currentStatus = t.status || (t.completed ? "completed" : "todo");
+
+          return (
+            <div key={t.id} className="rounded-md border p-3">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="font-semibold">{t.title}</p>
+                  <p className="text-sm text-slate-500">{t.description}</p>
+                </div>
                 <select
-                  value={statusMap[title]}
+                  value={currentStatus}
                   onChange={(e) => onChangeStatus(t.id, e.target.value as TaskStatus)}
                   className="rounded-md border px-2 py-1"
                 >
@@ -133,8 +128,8 @@ function Column({
                 </select>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
         {tasks.length === 0 && <p className="text-sm text-slate-500">No tasks</p>}
       </div>
     </section>

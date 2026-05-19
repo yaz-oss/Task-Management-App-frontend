@@ -35,7 +35,7 @@ const navItems = [
 
 function DashboardLayout({ title, subtitle, children }: DashboardLayoutProps) {
   const [darkMode, setDarkMode] = useState(
-    () => localStorage.getItem("theme") !== "light"
+    () => localStorage.getItem("theme") === "dark"
   );
   const navigate = useNavigate();
   const username = localStorage.getItem("username") || "there";
