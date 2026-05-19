@@ -30,6 +30,12 @@ function Login() {
   const [message, setMessage] = useState(blockedMessage);
 
   useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
+  }, []);
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 

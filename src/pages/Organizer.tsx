@@ -82,7 +82,7 @@ function Organizer() {
 
   return (
     <DashboardLayout title="Task organizer" subtitle="Plan and move tasks through stages">
-      <main className="grid gap-4 md:grid-cols-4">
+      <main className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <Column title="Todo" tasks={grouped.todo} onChangeStatus={changeStatus} />
         <Column title="In progress" tasks={grouped.inProgress} onChangeStatus={changeStatus} />
         <Column title="Pending" tasks={grouped.pending} onChangeStatus={changeStatus} />
@@ -93,6 +93,13 @@ function Organizer() {
   );
 }
 
+const taskStatusTone: Record<TaskStatus, string> = {
+  todo: "bg-sky-100 text-sky-700",
+  "in-progress": "bg-violet-100 text-violet-700",
+  pending: "bg-amber-100 text-amber-700",
+  completed: "bg-emerald-100 text-emerald-700",
+};
+
 function Column({
   title,
   tasks,
@@ -102,35 +109,64 @@ function Column({
   tasks: TaskType[];
   onChangeStatus: (id: number, status: TaskStatus) => void;
 }) {
-  return (
-    <section className="rounded-xl border p-4">
-      <h3 className="font-semibold">{title}</h3>
-      <div className="mt-3 space-y-3">
-        {tasks.map((t) => {
-          const currentStatus = t.status || (t.completed ? "completed" : "todo");
+  const statusKey =
+    title === "Done"
+      ? "completed"
+      : (title.toLowerCase().replace(" ", "-") as TaskStatus);
 
-          return (
-            <div key={t.id} className="rounded-md border p-3">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="font-semibold">{t.title}</p>
-                  <p className="text-sm text-slate-500">{t.description}</p>
+  return (
+    <section className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+          <p className="mt-1 text-xs text-slate-500">{tasks.length} task{tasks.length === 1 ? "" : "s"}</p>
+        </div>
+        <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${taskStatusTone[statusKey]}`}>
+          {title}
+        </span>
+      </div>
+
+      <div className="space-y-4">
+        {tasks.length > 0 ? (
+          tasks.map((t) => {
+            const currentStatus = t.status || (t.completed ? "completed" : "todo");
+
+            return (
+              <div key={t.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-slate-900">{t.title}</p>
+                    <p className="mt-2 text-sm leading-6 text-slate-500">
+                      {t.description || "No description added yet."}
+                    </p>
+                  </div>
+                  <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${taskStatusTone[currentStatus]}`}>
+                    {currentStatus.replace("-", " ")}
+                  </span>
                 </div>
-                <select
-                  value={currentStatus}
-                  onChange={(e) => onChangeStatus(t.id, e.target.value as TaskStatus)}
-                  className="rounded-md border px-2 py-1"
-                >
-                  <option value="todo">Todo</option>
-                  <option value="in-progress">In progress</option>
-                  <option value="pending">Pending</option>
-                  <option value="completed">Done</option>
-                </select>
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Update status
+                  </label>
+                  <select
+                    value={currentStatus}
+                    onChange={(e) => onChangeStatus(t.id, e.target.value as TaskStatus)}
+                    className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm sm:w-auto"
+                  >
+                    <option value="todo">Todo</option>
+                    <option value="in-progress">In progress</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Done</option>
+                  </select>
+                </div>
               </div>
-            </div>
-          );
-        })}
-        {tasks.length === 0 && <p className="text-sm text-slate-500">No tasks</p>}
+            );
+          })
+        ) : (
+          <div className="rounded-3xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+            No tasks in this stage yet.
+          </div>
+        )}
       </div>
     </section>
   );

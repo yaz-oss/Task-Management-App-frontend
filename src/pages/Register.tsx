@@ -1,18 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  Mail,
-  Moon,
-  ShieldCheck,
-  Sparkles,
-  Sun,
-  User,
-  UserPlus,
-} from "lucide-react";
+import {Eye,EyeOff,LockKeyhole,Mail,Moon,ShieldCheck,Sparkles,Sun,User,UserPlus,} from "lucide-react";
 import API from "../api/axios";
 
 function Register() {
@@ -25,6 +14,12 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("username");
+  }, []);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();

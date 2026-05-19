@@ -134,43 +134,11 @@ function Dashboard() {
             <Stat tone="amber" label="Admin assigned" value={stats.assigned} />
           </section>
 
-          <section className="mt-6 space-y-6">
-            <div className="grid gap-4 xl:grid-cols-2">
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p className="text-sm font-semibold uppercase text-emerald-600">Task manager</p>
-                <h2 className="mt-3 text-xl font-semibold">Create, update, and remove tasks</h2>
-                <p className="mt-3 text-sm leading-6 text-slate-500">
-                  Use the task manager page when you need full CRUD controls and a simple task list.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("/dashboard/tasks")}
-                  className="mt-6 inline-flex items-center rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  Go to Task CRUD
-                </button>
-              </div>
-
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <p className="text-sm font-semibold uppercase text-sky-600">Task organizer</p>
-                <h2 className="mt-3 text-xl font-semibold">Plan with status columns</h2>
-                <p className="mt-3 text-sm leading-6 text-slate-500">
-                  Open the organizer to see tasks grouped by progress and move them between stages.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => navigate("/dashboard/organizer")}
-                  className="mt-6 inline-flex items-center rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  Go to Task Organizer
-                </button>
-              </div>
-            </div>
-
+          <section className="mt-6">
             <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
               <h2 className="text-lg font-semibold">Dashboard summary</h2>
               <p className="mt-2 text-sm text-slate-500">
-                Your main dashboard now keeps things light: use the dedicated pages above for full task control.
+                Your main dashboard keeps things focused. Use the dedicated Tasks and Organizer pages for full task control.
               </p>
             </div>
           </section>
