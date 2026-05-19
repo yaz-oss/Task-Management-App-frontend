@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-  Activity,
   ClipboardList,
   LayoutDashboard,
   LogOut,
@@ -20,16 +19,6 @@ const navItems = [
     path: "/dashboard",
     label: "Dashboard",
     icon: <ClipboardList size={18} />,
-  },
-  {
-    path: "/dashboard/tasks",
-    label: "Tasks",
-    icon: <Activity size={18} />,
-  },
-  {
-    path: "/dashboard/organizer",
-    label: "Organizer",
-    icon: <LayoutDashboard size={18} />,
   },
 ];
 
