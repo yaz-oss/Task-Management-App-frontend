@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import DashboardLayout from "../components/DashboardLayout";
@@ -26,6 +26,7 @@ function Tasks() {
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [taskSearch, setTaskSearch] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [message, setMessage] = useState("");
 
@@ -70,6 +71,23 @@ function Tasks() {
     setTitle("");
     setDescription("");
   };
+
+  const filteredTasks = useMemo(() => {
+    const value = taskSearch.trim().toLowerCase();
+
+    if (!value) return tasks;
+
+    return tasks.filter((task) => {
+      const status = task.status || (task.completed ? "completed" : "todo");
+
+      return (
+        task.title.toLowerCase().includes(value) ||
+        task.description.toLowerCase().includes(value) ||
+        status.toLowerCase().includes(value) ||
+        (task.assignedByAdmin && "admin".includes(value))
+      );
+    });
+  }, [taskSearch, tasks]);
 
   const saveTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -189,9 +207,25 @@ function Tasks() {
         </form>
 
         <section className="rounded-xl border p-4">
-          <h2 className="font-semibold">All tasks</h2>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="font-semibold">All tasks</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                Showing {filteredTasks.length} of {tasks.length}
+              </p>
+            </div>
+            <div className="flex h-10 w-full items-center rounded-md border px-3 sm:w-72">
+              <Search size={16} className="text-slate-400" />
+              <input
+                value={taskSearch}
+                onChange={(e) => setTaskSearch(e.target.value)}
+                placeholder="Search tasks"
+                className="ml-2 w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
+              />
+            </div>
+          </div>
           <div className="mt-3 space-y-3">
-            {tasks.map((task) => (
+            {filteredTasks.map((task) => (
               <div key={task.id} className="flex items-start justify-between gap-4 rounded-md border p-3">
                 <div>
                   <div className="flex items-center gap-2">
@@ -229,6 +263,9 @@ function Tasks() {
               </div>
             ))}
             {tasks.length === 0 && <p className="text-sm text-slate-500">No tasks yet.</p>}
+            {tasks.length > 0 && filteredTasks.length === 0 && (
+              <p className="text-sm text-slate-500">No tasks match your search.</p>
+            )}
           </div>
         </section>
       </main>
