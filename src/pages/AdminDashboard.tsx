@@ -29,6 +29,8 @@ type TaskWithUser = Task & {
 };
 
 const TASKS_PER_PAGE = 8;
+const TASK_TITLE_MAX_LENGTH = 20;
+const TASK_DESCRIPTION_MAX_LENGTH = 150;
 
 function AdminDashboard() {
   const navigate = useNavigate();
@@ -205,8 +207,23 @@ function AdminDashboard() {
   };
 
   const assignTask = async () => {
-    if (!assignedUserId || !assignTitle.trim() || !assignDescription.trim()) {
+    const trimmedTitle = assignTitle.trim();
+    const trimmedDescription = assignDescription.trim();
+
+    if (!assignedUserId || !trimmedTitle || !trimmedDescription) {
       setMessage("Select a user and enter task details");
+      return;
+    }
+
+    if (trimmedTitle.length > TASK_TITLE_MAX_LENGTH) {
+      setMessage(`Task name must be ${TASK_TITLE_MAX_LENGTH} characters or less`);
+      return;
+    }
+
+    if (trimmedDescription.length > TASK_DESCRIPTION_MAX_LENGTH) {
+      setMessage(
+        `Task description must be ${TASK_DESCRIPTION_MAX_LENGTH} characters or less`
+      );
       return;
     }
 
@@ -215,8 +232,8 @@ function AdminDashboard() {
         "/api/admin/task/assign",
         {
           userId: Number(assignedUserId),
-          title: assignTitle.trim(),
-          description: assignDescription.trim(),
+          title: trimmedTitle,
+          description: trimmedDescription,
         },
         {
           headers: {
@@ -231,8 +248,12 @@ function AdminDashboard() {
       setTaskPage(1);
       setMessage("Task assigned");
       void fetchUsers();
-    } catch {
-      setMessage("Could not assign task");
+    } catch (error: unknown) {
+      const apiMessage = axios.isAxiosError(error)
+        ? (error.response?.data as { message?: string } | undefined)?.message
+        : undefined;
+
+      setMessage(apiMessage || "Could not assign task");
     }
   };
 
@@ -641,8 +662,12 @@ function AssignPanel({
         value={assignTitle}
         onChange={(event) => setAssignTitle(event.target.value)}
         placeholder="Task title"
+        maxLength={TASK_TITLE_MAX_LENGTH}
         className="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm"
       />
+      <p className="mt-2 text-xs text-slate-500">
+        {assignTitle.length}/{TASK_TITLE_MAX_LENGTH} characters
+      </p>
 
       <label className="mt-4 block text-sm font-semibold text-slate-700">Description</label>
       <textarea
@@ -650,8 +675,12 @@ function AssignPanel({
         onChange={(event) => setAssignDescription(event.target.value)}
         placeholder="Task description"
         rows={4}
+        maxLength={TASK_DESCRIPTION_MAX_LENGTH}
         className="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm"
       />
+      <p className="mt-2 text-xs text-slate-500">
+        {assignDescription.length}/{TASK_DESCRIPTION_MAX_LENGTH} characters
+      </p>
 
       <button
         type="button"

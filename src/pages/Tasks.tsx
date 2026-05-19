@@ -16,10 +16,12 @@ type TaskType = {
   assignedByAdmin?: boolean;
 };
 
+const TITLE_MAX_LENGTH = 20;
+const DESCRIPTION_MAX_LENGTH = 150;
+
 function Tasks() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const DESCRIPTION_MAX_LENGTH = 150;
 
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [title, setTitle] = useState("");
@@ -72,26 +74,51 @@ function Tasks() {
   const saveTask = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) return;
+
+    const trimmedTitle = title.trim();
+    const trimmedDescription = description.trim();
+
+    if (!trimmedTitle || !trimmedDescription) {
+      setMessage("Title and description are required");
+      return;
+    }
+
+    if (trimmedTitle.length > TITLE_MAX_LENGTH) {
+      setMessage(`Task name must be ${TITLE_MAX_LENGTH} characters or less`);
+      return;
+    }
+
+    if (trimmedDescription.length > DESCRIPTION_MAX_LENGTH) {
+      setMessage(
+        `Task description must be ${DESCRIPTION_MAX_LENGTH} characters or less`
+      );
+      return;
+    }
+
     try {
       if (editingId) {
         await API.put(
           `/api/tasks/${editingId}`,
-          { title: title.trim(), description: description.trim() },
+          { title: trimmedTitle, description: trimmedDescription },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessage("Task updated");
       } else {
         await API.post(
           "/api/tasks",
-          { title: title.trim(), description: description.trim() },
+          { title: trimmedTitle, description: trimmedDescription },
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessage("Task created");
       }
       resetForm();
       void fetchTasks();
-    } catch {
-      setMessage("Could not save task");
+    } catch (error: unknown) {
+      const apiMessage = axios.isAxiosError(error)
+        ? (error.response?.data as { message?: string } | undefined)?.message
+        : undefined;
+
+      setMessage(apiMessage || "Could not save task");
     }
   };
 
@@ -131,8 +158,12 @@ function Tasks() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
+            maxLength={TITLE_MAX_LENGTH}
             className="mt-3 w-full rounded-md border px-3 py-2"
           />
+          <p className="mt-2 text-xs text-slate-500">
+            {title.length}/{TITLE_MAX_LENGTH} characters
+          </p>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
