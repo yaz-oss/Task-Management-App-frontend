@@ -80,9 +80,9 @@ function Dashboard() {
 
     return {
       total,
-      todo: tasks.filter((task) => taskStatus(task) === "todo").length,
-      progress: tasks.filter((task) => taskStatus(task) === "in-progress").length,
-      pending: tasks.filter((task) => taskStatus(task) === "pending").length,
+      todo: tasks.filter((task) => taskStatus(task)).length,
+      progress: tasks.filter((task) => taskStatus(task) ).length,
+      pending: tasks.filter((task) => taskStatus(task) ).length,
       completed,
       assigned: tasks.filter((task) => task.assignedByAdmin).length,
       rate: total ? Math.round((completed / total) * 100) : 0,
