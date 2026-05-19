@@ -82,7 +82,7 @@ function Organizer() {
 
   return (
     <DashboardLayout title="Task organizer" subtitle="Plan and move tasks through stages">
-      <main className="grid items-start gap-4 lg:grid-cols-2 2xl:grid-cols-4">
+      <main className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-4">
         <Column title="Todo" tasks={grouped.todo} onChangeStatus={changeStatus} />
         <Column title="In progress" tasks={grouped.inProgress} onChangeStatus={changeStatus} />
         <Column title="Pending" tasks={grouped.pending} onChangeStatus={changeStatus} />
