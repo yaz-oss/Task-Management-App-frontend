@@ -371,18 +371,11 @@ function AdminDashboard() {
                 <StatCard icon={CheckCircle2} label="Done" value={stats.completed} />
               </div>
 
-              <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
-                <TaskList tasks={allTasks.slice(0, 6)} loading={loading} />
-                <AssignPanel
-                  users={normalUsers}
-                  assignedUserId={assignedUserId}
-                  assignTitle={assignTitle}
-                  assignDescription={assignDescription}
-                  setAssignedUserId={setAssignedUserId}
-                  setAssignTitle={setAssignTitle}
-                  setAssignDescription={setAssignDescription}
-                  assignTask={assignTask}
-                />
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h3 className="text-lg font-semibold">Admin overview</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  The dashboard provides a quick summary of users, blocked accounts, and task completion. Use the Tasks tab for assignment and task management.
+                </p>
               </div>
             </section>
           )}
