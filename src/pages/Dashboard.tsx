@@ -90,6 +90,7 @@ function Dashboard() {
   }, [tasks]);
 
   const recentTask = tasks[0];
+  const recentTasks = tasks.slice(0, 12);
 
 
   return (
@@ -135,11 +136,57 @@ function Dashboard() {
           </section>
 
           <section className="mt-6">
-            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h2 className="text-lg font-semibold">Dashboard summary</h2>
-              <p className="mt-2 text-sm text-slate-500">
-                Your main dashboard keeps things focused. Use the dedicated Tasks and Organizer pages for full task control.
-              </p>
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 className="text-lg font-semibold">Dashboard summary</h2>
+                <p className="mt-2 text-sm text-slate-500">
+                  Your main dashboard keeps things focused. Use the dedicated Tasks and Organizer pages for full task control.
+                </p>
+              </div>
+
+              <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div>
+                    <h2 className="text-lg font-semibold">Recent tasks</h2>
+                    <p className="mt-1 text-sm text-slate-500">
+                      {tasks.length} task{tasks.length === 1 ? "" : "s"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="max-h-[42vh] space-y-3 overflow-y-auto pr-2">
+                  {recentTasks.length > 0 ? (
+                    recentTasks.map((task) => {
+                      const status = taskStatus(task);
+
+                      return (
+                        <article
+                          key={task.id}
+                          className="rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <h3 className="break-words text-sm font-semibold">
+                                {task.title}
+                              </h3>
+                              <p className="mt-1 line-clamp-2 break-words text-sm text-slate-500">
+                                {task.description}
+                              </p>
+                            </div>
+                            <span className="shrink-0 rounded-full bg-white px-2.5 py-1 text-[11px] font-semibold capitalize text-slate-600 ring-1 ring-slate-200">
+                              {status.replace("-", " ")}
+                            </span>
+                          </div>
+                        </article>
+                      );
+                    })
+                  ) : (
+                    <p className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-500">
+                      No tasks yet.
+                    </p>
+                  )}
+                </div>
+              </div>
             </div>
           </section>
         </main>
