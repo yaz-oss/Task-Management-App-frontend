@@ -139,14 +139,14 @@ function Column({
                     {t.description || "No description added yet."}
                   </p>
                 </div>
-                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    Update status
+                <div className="mt-4 flex items-center justify-between gap-2">
+                  <label className="shrink-0 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+                    Status
                   </label>
                   <select
                     value={currentStatus}
                     onChange={(e) => onChangeStatus(t.id, e.target.value as TaskStatus)}
-                    className="w-full rounded-2xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 shadow-sm sm:w-auto"
+                    className="h-8 min-w-0 max-w-[8.5rem] rounded-lg border border-slate-300 bg-white px-2 text-xs text-slate-700 shadow-sm"
                   >
                     <option value="todo">Todo</option>
                     <option value="in-progress">In progress</option>

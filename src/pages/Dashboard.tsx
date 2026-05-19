@@ -21,6 +21,10 @@ function Dashboard() {
   const token = localStorage.getItem("token");
 
   const [tasks, setTasks] = useState<TaskType[]>([]);
+  const [focusTaskId, setFocusTaskId] = useState<number | null>(() => {
+    const savedId = localStorage.getItem("focusTaskId");
+    return savedId ? Number(savedId) : null;
+  });
   const [message, setMessage] = useState("");
 
   const fetchTasks = useCallback(async () => {
@@ -89,7 +93,29 @@ function Dashboard() {
     };
   }, [tasks]);
 
-  const recentTask = tasks[0];
+  const focusTask = useMemo(() => {
+    const savedTask = tasks.find(
+      (task) => task.id === focusTaskId && taskStatus(task) !== "completed"
+    );
+
+    if (savedTask) return savedTask;
+
+    return tasks.find((task) => taskStatus(task) === "todo") || null;
+  }, [focusTaskId, tasks]);
+
+  useEffect(() => {
+    if (!focusTask) {
+      localStorage.removeItem("focusTaskId");
+      setFocusTaskId(null);
+      return;
+    }
+
+    if (focusTask.id !== focusTaskId) {
+      localStorage.setItem("focusTaskId", String(focusTask.id));
+      setFocusTaskId(focusTask.id);
+    }
+  }, [focusTask, focusTaskId]);
+
   const recentTasks = tasks.slice(0, 12);
 
 
@@ -116,7 +142,7 @@ function Dashboard() {
               <div className="rounded-2xl border border-emerald-200 bg-white/80 p-4 shadow-lg shadow-emerald-200/30 dark-panel-soft">
                 <p className="text-sm font-medium text-emerald-700">Next focus</p>
                 <p className="mt-2 line-clamp-2 text-lg font-semibold text-sky-950">
-                  {recentTask ? recentTask.title : "No task yet"}
+                  {focusTask ? focusTask.title : "No todo task"}
                 </p>
               </div>
             </div>

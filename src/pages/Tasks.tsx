@@ -224,17 +224,17 @@ function Tasks() {
               />
             </div>
           </div>
-          <div className="mt-3 max-h-[65vh] space-y-3 overflow-y-auto pr-2">
+          <div className="mt-3 flex snap-x gap-3 overflow-x-auto pb-3 [scrollbar-width:thin]">
             {filteredTasks.map((task) => (
-              <div key={task.id} className="flex items-start justify-between gap-4 rounded-md border p-3">
-                <div>
+              <div key={task.id} className="flex min-w-[280px] max-w-[340px] snap-start flex-col justify-between gap-4 rounded-md border p-3 sm:min-w-[320px]">
+                <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-semibold">{task.title}</h3>
+                    <h3 className="break-words font-semibold">{task.title}</h3>
                     {task.assignedByAdmin && <span className="text-xs text-amber-700">Admin</span>}
                   </div>
-                  <p className="text-sm text-slate-500">{task.description}</p>
+                  <p className="mt-1 line-clamp-3 break-words text-sm text-slate-500">{task.description}</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <select
                     value={task.status || (task.completed ? "completed" : "todo")}
                     onChange={(e) => changeStatus(task.id, e.target.value as TaskStatus)}
