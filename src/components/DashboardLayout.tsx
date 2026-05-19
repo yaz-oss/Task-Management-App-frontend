@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   ClipboardList,
+  Columns3,
   LayoutDashboard,
   LogOut,
   Moon,
@@ -18,7 +19,17 @@ const navItems = [
   {
     path: "/dashboard",
     label: "Dashboard",
+    icon: <LayoutDashboard size={18} />,
+  },
+  {
+    path: "/dashboard/tasks",
+    label: "Tasks",
     icon: <ClipboardList size={18} />,
+  },
+  {
+    path: "/dashboard/organizer",
+    label: "Organizer",
+    icon: <Columns3 size={18} />,
   },
 ];
 
