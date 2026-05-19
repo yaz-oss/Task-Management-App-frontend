@@ -82,7 +82,7 @@ function Organizer() {
 
   return (
     <DashboardLayout title="Task organizer" subtitle="Plan and move tasks through stages">
-      <main className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <main className="grid items-start gap-4 lg:grid-cols-2 2xl:grid-cols-4">
         <Column title="Todo" tasks={grouped.todo} onChangeStatus={changeStatus} />
         <Column title="In progress" tasks={grouped.inProgress} onChangeStatus={changeStatus} />
         <Column title="Pending" tasks={grouped.pending} onChangeStatus={changeStatus} />
@@ -115,7 +115,7 @@ function Column({
       : (title.toLowerCase().replace(" ", "-") as TaskStatus);
 
   return (
-    <section className="flex max-h-[72vh] min-h-0 flex-col rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm">
+    <section className="flex max-h-[72vh] min-w-0 flex-col rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
@@ -126,16 +126,16 @@ function Column({
         </span>
       </div>
 
-      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-2">
+      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1 [scrollbar-width:thin]">
         {tasks.length > 0 ? (
           tasks.map((t) => {
             const currentStatus = t.status || (t.completed ? "completed" : "todo");
 
             return (
-              <div key={t.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
+              <div key={t.id} className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
                 <div className="min-w-0 w-full space-y-3 px-1">
-                  <p className="w-full font-semibold text-slate-900">{t.title}</p>
-                  <p className="w-full max-h-[5.5rem] overflow-hidden text-ellipsis whitespace-pre-wrap text-sm leading-7 text-slate-600">
+                  <p className="w-full break-words font-semibold text-slate-900">{t.title}</p>
+                  <p className="w-full max-h-[5.5rem] overflow-hidden break-words text-sm leading-6 text-slate-600">
                     {t.description || "No description added yet."}
                   </p>
                 </div>
