@@ -133,16 +133,11 @@ function Column({
 
             return (
               <div key={t.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 shadow-sm">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <p className="font-semibold text-slate-900">{t.title}</p>
-                    <p className="mt-2 text-sm leading-6 text-slate-500">
-                      {t.description || "No description added yet."}
-                    </p>
-                  </div>
-                  <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${taskStatusTone[currentStatus]}`}>
-                    {currentStatus.replace("-", " ")}
-                  </span>
+                <div className="min-w-0 w-full space-y-3 px-1">
+                  <p className="w-full font-semibold text-slate-900">{t.title}</p>
+                  <p className="w-full max-h-[5.5rem] overflow-hidden text-ellipsis whitespace-pre-wrap text-sm leading-7 text-slate-600">
+                    {t.description || "No description added yet."}
+                  </p>
                 </div>
                 <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
