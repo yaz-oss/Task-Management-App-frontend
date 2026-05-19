@@ -19,6 +19,7 @@ type TaskType = {
 function Tasks() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const DESCRIPTION_MAX_LENGTH = 150;
 
   const [tasks, setTasks] = useState<TaskType[]>([]);
   const [title, setTitle] = useState("");
@@ -137,8 +138,12 @@ function Tasks() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Description"
             rows={4}
+            maxLength={DESCRIPTION_MAX_LENGTH}
             className="mt-3 w-full rounded-md border px-3 py-2"
           />
+          <p className="mt-2 text-xs text-slate-500">
+            {description.length}/{DESCRIPTION_MAX_LENGTH} characters
+          </p>
           <div className="mt-3 flex gap-2">
             <button className="rounded-xl bg-slate-900 px-3 py-2 text-white flex items-center gap-2">
               <Plus size={14} /> {editingId ? "Save" : "Create"}
