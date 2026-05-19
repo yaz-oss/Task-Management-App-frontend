@@ -716,7 +716,7 @@ function TaskList({
   }
 
   return (
-    <div className="divide-y divide-slate-100">
+    <div className="max-h-[65vh] divide-y divide-slate-100 overflow-y-auto">
       {tasks.map((task) => {
         const status = task.status || (task.completed ? "completed" : "todo");
 

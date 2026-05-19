@@ -224,7 +224,7 @@ function Tasks() {
               />
             </div>
           </div>
-          <div className="mt-3 space-y-3">
+          <div className="mt-3 max-h-[65vh] space-y-3 overflow-y-auto pr-2">
             {filteredTasks.map((task) => (
               <div key={task.id} className="flex items-start justify-between gap-4 rounded-md border p-3">
                 <div>
