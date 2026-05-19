@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import { Pencil, Plus, Search, Trash2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import DashboardLayout from "../components/DashboardLayout";
@@ -18,6 +18,7 @@ type TaskType = {
 
 const TITLE_MAX_LENGTH = 20;
 const DESCRIPTION_MAX_LENGTH = 150;
+const TASKS_PER_SLIDE = 3;
 
 function Tasks() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function Tasks() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [taskSearch, setTaskSearch] = useState("");
+  const [taskSlide, setTaskSlide] = useState(0);
   const [editingId, setEditingId] = useState<number | null>(null);
   const [message, setMessage] = useState("");
 
@@ -88,6 +90,20 @@ function Tasks() {
       );
     });
   }, [taskSearch, tasks]);
+
+  const slideCount = Math.max(
+    1,
+    Math.ceil(filteredTasks.length / TASKS_PER_SLIDE)
+  );
+  const safeSlide = Math.min(taskSlide, slideCount - 1);
+  const visibleTasks = filteredTasks.slice(
+    safeSlide * TASKS_PER_SLIDE,
+    safeSlide * TASKS_PER_SLIDE + TASKS_PER_SLIDE
+  );
+
+  useEffect(() => {
+    setTaskSlide(0);
+  }, [taskSearch]);
 
   const saveTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -224,9 +240,38 @@ function Tasks() {
               />
             </div>
           </div>
-          <div className="mt-3 flex snap-x gap-3 overflow-x-auto pb-3 [scrollbar-width:thin]">
-            {filteredTasks.map((task) => (
-              <div key={task.id} className="flex min-w-[280px] max-w-[340px] snap-start flex-col justify-between gap-4 rounded-md border p-3 sm:min-w-[320px]">
+          {filteredTasks.length > TASKS_PER_SLIDE && (
+            <div className="mt-4 flex items-center justify-between gap-3">
+              <p className="text-sm text-slate-500">
+                Slide {safeSlide + 1} of {slideCount}
+              </p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  aria-label="Previous tasks"
+                  onClick={() => setTaskSlide((value) => Math.max(0, value - 1))}
+                  disabled={safeSlide === 0}
+                  className="flex h-9 w-9 items-center justify-center rounded-md border text-slate-700 transition hover:bg-slate-100 disabled:opacity-40"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next tasks"
+                  onClick={() =>
+                    setTaskSlide((value) => Math.min(slideCount - 1, value + 1))
+                  }
+                  disabled={safeSlide === slideCount - 1}
+                  className="flex h-9 w-9 items-center justify-center rounded-md border text-slate-700 transition hover:bg-slate-100 disabled:opacity-40"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {visibleTasks.map((task) => (
+              <div key={task.id} className="flex min-h-[11rem] min-w-0 flex-col justify-between gap-4 rounded-md border p-3">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h3 className="break-words font-semibold">{task.title}</h3>
