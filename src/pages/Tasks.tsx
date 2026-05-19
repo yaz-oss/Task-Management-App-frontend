@@ -170,7 +170,7 @@ function Tasks() {
   return (
     <DashboardLayout title="Tasks" subtitle="Create, edit, and manage your tasks">
       <main className="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)]">
-        <form onSubmit={saveTask} className="rounded-xl border p-4">
+        <form onSubmit={saveTask} className="self-start rounded-xl border p-4">
           <h2 className="font-semibold">{editingId ? "Edit" : "Create"} task</h2>
           <input
             value={title}

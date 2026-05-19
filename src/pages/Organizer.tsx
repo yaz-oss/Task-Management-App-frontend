@@ -82,7 +82,7 @@ function Organizer() {
 
   return (
     <DashboardLayout title="Task organizer" subtitle="Plan and move tasks through stages">
-      <main className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <main className="grid items-start gap-4 md:grid-cols-2 xl:grid-cols-4">
         <Column title="Todo" tasks={grouped.todo} onChangeStatus={changeStatus} />
         <Column title="In progress" tasks={grouped.inProgress} onChangeStatus={changeStatus} />
         <Column title="Pending" tasks={grouped.pending} onChangeStatus={changeStatus} />
@@ -115,7 +115,7 @@ function Column({
       : (title.toLowerCase().replace(" ", "-") as TaskStatus);
 
   return (
-    <section className="rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm">
+    <section className="flex max-h-[72vh] min-h-0 flex-col rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
@@ -126,7 +126,7 @@ function Column({
         </span>
       </div>
 
-      <div className="space-y-4">
+      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-2">
         {tasks.length > 0 ? (
           tasks.map((t) => {
             const currentStatus = t.status || (t.completed ? "completed" : "todo");
